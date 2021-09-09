@@ -1,1 +1,172 @@
-白.txt
+白.txt   
+今天又是元气满满的一天。
+git工具：
+            1. 代码的版本管理
+            2. 多人协作，解决冲突后，再进行代码的修改。
+
+        github是一个网站：
+            1. 可以充当git代码的管理仓库
+            2. 放置开源库或开源框架的源代码 jquery源代码就在github上
+            3. 博客
+            4. 电子书
+
+        版本管理工具：
+            1. 集成式 ： CVS、SVN 
+            2. 分布式 :  git  (90%以上的公司)     
+
+
+        git工具的使用：
+            1. 去官网下载git软件 https://git-scm.com/
+
+            2. 通过git代码的形式学习git操作
+
+            3. 在使用git命令的时候，先要进行配置和初始化
+
+                初始化：在指定的目录下 -> git init  ->  .git文件夹
+
+                配置：(必须在使用git工具前进行设置)
+
+                    git config --list : 查看配置信息 
+                    git config --global user.name "xiaoming"
+                    git config --global user.email "aaa@qq.com"
+
+                    git config --global --unset user.name : 删除user.name这个配置
+
+            4. 三个分区：
+                1. 工作区 : 就是你编写文件的地方
+                2. 暂存区 : .git    
+                    // 缓冲地带，防止工作区直接跟版本区通信
+                3. 版本区 : .git 
+                    // 暂存区和版本区管理的是代码的状态( 创建、修改、删除都是状态 )。
+
+                版本区中存放着项目的代码版本，这些版本在一个叫做master的分支上面。
+                分支是通过指针进行管理的，针对就是一个HEAD标识，HEAD标识在哪个版本上就表示当前版本区是哪一个状态。
+
+
+            5. git status : 查看当前三个区之间的状态
+
+                1. 如果打印的信息：都是白色，说明三个区状态相同
+
+                2. 如果打印的信息：有红色，说明：工作区和暂存区状态不同
+
+                3. 如果打印的信息：有绿色，说明：暂存区跟版本区状态不同
+
+            6. git add 
+                把工作区的状态同步到暂存区
+                git add a.txt -> 把a.txt的状态同步到暂存区
+                git add .  ->  把工作区中的所有状态不同的文件同步到暂存区
+
+            7. git commit 
+                把暂存区的状态同步到版本区
+                git commit -m "注释"   : 生成了一个版本
+
+            8. git log 
+                查看分支上的所有版本信息的
+
+                commit 847b0e720200748bc0638c99c9830fc05565a29d -> 版本的唯一标识，属于commitId，通过commitId可以找到当前对应的版本
+
+                当显示不完整的时候，可以通过回车进行后面代码的查看，输入q可以退出查看。
+
+                --pretty=oneline : 打印简化的版本信息
+
+            9. 删除文件：
+
+                先在工作区中删除文件，然后再add 和 commit 
+
+                git rm xxx : 删除xxx文件
+                    1. 把工作区的xxx删除
+                    2. 把删除xxx的状态同步到暂存区
+
+
+            10. 对比，查看三个区状态具体的差异点：
+
+                    git diff : 工作区和暂存区的具体对比
+                    git diff --cached : 暂存区和版本区的具体对比
+                    git diff master : 工作区和版本区中的master分支进行对比
+
+            11. 回退版本（可以回到过去）
+
+                git reset --hard HEAD   :  工作区和暂存区会跟当前head指针对应的版本相同
+                git reset --hard HEAD^  : 回到head指针对应的前一个版本
+                git reset --hard HEAD^^  : 回到head指针对应的前两个版本
+                git reset --hard HEAD~50  : 回到head指针对应的前50个版本
+                git reset --hard commitId : 回到指定commtid所对应的版本
+
+                git reflog : 查看之前做过的各种操作行为
+
+                git reset HEAD : 分支回退到暂存区
+            //检出文件，跟回退版本有点像。
+
+            //git checkout : 检出文件，可以得到之前版本中对应的文件的内容，但是不影响版本的变换，会把版本区的对应文件替换工作区和暂存区。
+
+            //git checkout commitId xxxx : 从版本区检出文件到工作区和暂存区
+
+            //git checkout -- xxxx : 从暂存区检出文件到工作区
+
+            //git checkout xxx : 切换xxx分支
+
+        多人协作：
+
+            1. 通过github来实现版本的通信。需要github账号
+
+            2. .gitignore : 
+                默认情况下，git会维护当前项目下的所有文件，但是有时候我们想忽略掉某些文件，也就是希望git工具不去维护指定的一些文件
+
+            3. 设置安全协议：
+
+                当设置了安全协议，就可以在不登录的情况下，进行电脑和网站的通信。
+
+                SSH协议：
+                    1. 找到一个叫做 .ssh的文件夹。如果电脑找不到，通过命名创建：ssh-keygen -t rsa -C "youremail@example.com"
+                    2. 文件夹里有两个秘钥：公钥(给github网站)、私钥(自己留着)
+                    3. github个人设置中找到SSH KEY进行设置公钥。
+            
+            4. 在git工具中设置远程地址：
+                让git工具知道，应该往哪一个github上的远程仓库进行通信。 
+                
+                git remote : 查看远程仓库
+
+                // 添加一个远程远程仓库的地址：
+                               远程地址的名字(自定义的) 远程地址的URL   
+                git remote add origin git@github.com:ghostdp/gittest.git
+            
+            5. 把git工具维护的分支，推送到 github上
+
+                    推送 远程地址的名字 本地分支的名字   
+                git push origin master 
+
+               
+            6. 下载github上的代码：
+                下载是不需要权限的，你可以下载任何开源的github远程仓库
+                但是上传是有权限的，只有你是这个项目的协作者你才能上传
+                下载：git clone 对应的远程仓库地址
+
+            7. 如何解决冲突：
+
+                    一旦git push 报错了，就说明代码有冲突了。
+                    解决方案：先 git pull origin master 把最新github上的代码拉取下来，解决冲突后再提交，然后再push操作。
+
+                    
+        
+        
+        分支操作：
+
+            也是解决冲突的方式，可以让项目有更多的需求。
+
+            git branch : 查看分支
+
+            git branch xxx : 创建一个xxx分支
+
+            git checkout xxx : 切换到xxx分支上
+
+            git merge : 合并分支
+
+            git branch xxx -d : 删除分支
+
+
+        github的功能：
+
+            git push origin xxx : 把xxx分支上传到github 
+            git push origun v1.0.0 : 把v1.0.0的里程碑上传到github上
+
+            https://www.runoob.com/git/git-tutorial.html : 入门教程
